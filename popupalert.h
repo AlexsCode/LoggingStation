@@ -2,6 +2,8 @@
 #define POPUPALERT_H
 
 #include <QDialog>
+#include <QSoundEffect>
+
 
 namespace Ui {
 class popupalert;
@@ -17,6 +19,7 @@ public:
 
 private:
     Ui::popupalert *ui;
+    QSoundEffect window_alert;
 };
 
 #endif // POPUPALERT_H
