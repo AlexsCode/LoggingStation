@@ -95,11 +95,11 @@ void LoggingHome::url_download_finished(QNetworkReply *reply)
                             LoggingHome::url_request_sender(); // sends to continue request loop
                             break;
 
-                        case 1: qDebug()<< "different"<<resp<<request_counter;
+                        case 1: qDebug()<< "different"<<resp<<request_counter<<url_reply_string;
                             LoggingHome::url_updated(); //flags alert
                             break;
-                        case -1:qDebug()<< "different"<<resp<<request_counter;
-                            LoggingHome::url_request_sender();
+                        case -1: qDebug()<< "different"<<resp<<request_counter;
+                            LoggingHome::url_updated();
                             break;
                         }//end of switch
         }//end of bool if
