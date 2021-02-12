@@ -6,21 +6,31 @@
 //Using QT 5.12 which doesnt have the latest Network Classes.
 #include <QNetworkReply> // handles replies
 #include <QNetworkAccessManager> //creates management
-
-
 #include <QString>
+#include <QIcon>
+#include <QFile>
+
 
 
 LoggingHome::LoggingHome(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::LoggingHome)
 {
+
     ui->setupUi(this);
+
+    setWindowIcon(QIcon(":/logo/television_tv_smart_icon_161235.ico"));
     setWindowTitle(tr("LoggerStation"));
+
     //this->setWindowState(Qt::WindowMinimized); // this will hide window on start
     networkmanager = new QNetworkAccessManager(this); //Creates Access manager
     connect(networkmanager,&QNetworkAccessManager::finished,this,&LoggingHome::url_download_finished);
 
+
+    QPixmap cross(":/logo/close.svg");
+    ui->status_label->setPixmap(cross);
+
+    //need To check for INI file and create if not there.
 }
 
 LoggingHome::~LoggingHome()
@@ -47,8 +57,28 @@ void LoggingHome::url_changed(){
 void LoggingHome::on_setURLButton_clicked()
 {
     url_String  = ui->urlLineEdit->text(); // sets the URL to watch for as url string
-    LoggingHome::url_changed(); // calls the new URL changed function.
+    QPixmap tick(":/logo/check.svg");
+    ui->status_label->setPixmap(tick);
+     // calls the new URL changed function.
+    LoggingHome::url_changed();
 
+//    QFile pasturl_file(":/pasturl/pasturl.ini"); //sets the inputfile and gives path to it
+//        if (!pasturl_file.open(QIODevice::ReadWrite )){
+
+//        QTextStream streamin(&pasturl_file);
+//        streamin<<url_String<<endl;}
+//        pasturl_file.close();
+
+//        QFile testlog_file(":/pasturl/testlog.txt"); //sets the inputfile and gives path to it
+//        if (!testlog_file.open(QIODevice::WriteOnly|QIODevice::Text ))
+//                return;
+
+//            QTextStream streamin(&testlog_file);
+//            qDebug()<<ui->urlLineEdit->text();
+//            streamin<<url_String<<endl;
+
+
+           // testlog_file.close();
 }
 
 void LoggingHome::url_download_finished(QNetworkReply *reply)
@@ -91,22 +121,18 @@ void LoggingHome::url_download_finished(QNetworkReply *reply)
 
                         resp = QString::compare(url_reply_string,url_past_reply_string); //gets difference codes as int
                         switch(resp){ // depending on whether same or different then redirected to different functions.
-                        case 0: qDebug()<< "Same"<<resp<<request_counter;
-                            LoggingHome::url_request_sender(); // sends to continue request loop
-                            break;
+                        case 0://qDebug()<<resp;
+                            LoggingHome::url_request_sender(); break;// sends to continue request loop
+                            //qDebug()<< "Same"<<resp<<request_counter; //debug to show each request
+                        case 1://qDebug()<<resp;
+                            LoggingHome::url_updated();break; //flags alert
+                             //qDebug()<< "different"<<resp<<request_counter<<url_reply_string;
+                        case -1:
+                            LoggingHome::url_updated();break;
+                            //qDebug()<< "different"<<resp<<request_counter;
 
-                        case 1: qDebug()<< "different"<<resp<<request_counter<<url_reply_string;
-                            LoggingHome::url_updated(); //flags alert
-                            break;
-                        case -1: qDebug()<< "different"<<resp<<request_counter;
-                            LoggingHome::url_updated();
-                            break;
                         }//end of switch
         }//end of bool if
-//            else{
-
-//                qDebug()<<"Error";
-//            }
 
 
     }//end of else
@@ -117,8 +143,12 @@ void LoggingHome::url_download_finished(QNetworkReply *reply)
 void LoggingHome::url_updated(){
 
     popup_obj = new popupalert();
-    popup_obj->setWindowState(Qt::WindowMaximized);
+    popup_obj->setWindowState(Qt::WindowFullScreen);
+
     popup_obj->show(); //creates secondary popup window and displays
+//    QPixmap cross(":/logo/close.svg");
+//    ui->status_label->setPixmap(cross);
+
      if(allow_multiple==true){
             LoggingHome::url_request_sender(); //this will continue the loop even though popup occured.
      }
@@ -160,4 +190,9 @@ void LoggingHome::on_checkBox_singlechange_clicked(bool checked)
 void LoggingHome::on_verticalSlider_sliderMoved(int position)
 {   sensitivitythreshold = position ;  //gives the position of the slider as float
     sensitivitythreshold=sensitivitythreshold/10; // uses float to tune to delta % change threshold
+}
+
+void LoggingHome::on_reuseURLButton_clicked()
+{
+
 }

@@ -33,6 +33,8 @@ private slots:
 
     void on_verticalSlider_sliderMoved(int position);
 
+    void on_reuseURLButton_clicked();
+
 private: //object creation
     Ui::LoggingHome *ui;
     QNetworkAccessManager *networkmanager;
@@ -42,6 +44,8 @@ private: //object creation
     QString url_String;
     QString url_reply_string;
     QString url_past_reply_string;
+
+
 
     //flags
     bool valid=false;

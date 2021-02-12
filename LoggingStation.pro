@@ -37,4 +37,6 @@ DISTFILES += \
     alert.wav
 
 RESOURCES += \
-    alert.qrc
+    Icons.qrc \
+    alert.qrc \
+    logs.qrc

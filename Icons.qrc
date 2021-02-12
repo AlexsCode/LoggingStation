@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/logo">
+        <file>LoggingStation_Logo.png</file>
+        <file>LoggingStation_Logo.ico</file>
+        <file>television_tv_smart_icon_161235.ico</file>
+        <file>check.svg</file>
+        <file>close.svg</file>
+    </qresource>
+</RCC>

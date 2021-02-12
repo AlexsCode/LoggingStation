@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/pasturl">
+        <file>pasturl.ini</file>
+        <file>testlog.txt</file>
+    </qresource>
+</RCC>
