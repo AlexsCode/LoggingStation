@@ -2,11 +2,13 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
+#include <STASSID.h>
 
-#ifndef STASSID
-#define STASSID "MiWifi 2.4"
-#define STAPSK  "Allminenow00"
-#endif
+//#ifndef STASSID
+//#define STASSID "***"
+//#define STAPSK  "**"
+//#endif
+//defined in external doc. 
 
 const char* ssid = STASSID;
 const char* password = STAPSK;
